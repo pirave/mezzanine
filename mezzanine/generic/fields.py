@@ -102,7 +102,7 @@ class BaseGenericRelation(GenericRelation):
             instance_id = kwargs["instance"].object_pk
             try:
                 instance = for_model.objects.get(id=instance_id)
-            except self.model.DoesNotExist:
+            except for_model.DoesNotExist:
                 # Instance itself was deleted - signals are irrelevant.
                 return
             if hasattr(instance, "get_content_model"):
