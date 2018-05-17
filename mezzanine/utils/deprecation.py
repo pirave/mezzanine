@@ -62,9 +62,8 @@ def get_related_model(field):
 
 def mark_safe(s):
     from django.utils.safestring import mark_safe as django_safe
-    if callable(s):
-        @wraps(s)
-        def wrapper(*args, **kwargs):
-            return django_safe(*args, **kwargs)
-        return wrapper
+    if django.VERSION < (1, 11):
+        def func_wrapper(html):
+            return django_safe(s(html))
+        return func_wrapper
     return django_safe(s)
